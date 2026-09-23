@@ -30,17 +30,17 @@ def calcular_total_tienda(ventas, tienda_id, con_iva=True):
     return total
 
 
-def resumen_por_producto(ventas):
-    """Genera resumen de ventas agrupado por producto."""
-    resumen = {}
+def calcular_total_tienda(ventas, tienda_id, con_iva=True):
+    """Calcula el total de ventas de una tienda (con IVA por defecto)."""
+    total = 0
     for venta in ventas:
-        producto = venta["producto"]
-        ingreso = venta["cantidad"] * venta["precio"]
-        if producto in resumen:
-            resumen[producto] += ingreso
-        else:
-            resumen[producto] = ingreso
-    return resumen
+        if venta["tienda"] == tienda_id:
+            total += venta["cantidad"] * venta["precio"]
+    if con_iva:
+        from config import IVA
+
+        total *= 1 + IVA
+    return total
 
 
 if __name__ == "__main__":
